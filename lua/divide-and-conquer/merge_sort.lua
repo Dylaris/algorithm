@@ -55,12 +55,12 @@ local function merge(arr, left, mid, right)
 end
 
 local function merge_sort(arr, left, right)
-    if left < right then
-        local mid = math.floor((left + right) / 2)
-        merge_sort(arr, left, mid)
-        merge_sort(arr, mid + 1, right)
-        merge(arr, left, mid, right)
-    end
+    if left >= right then return end
+
+    local mid = math.floor((left + right) / 2)
+    merge_sort(arr, left, mid)
+    merge_sort(arr, mid + 1, right)
+    merge(arr, left, mid, right)
 end
 
 local function print(arr)
@@ -79,4 +79,3 @@ local function run()
 end
 
 run()
-

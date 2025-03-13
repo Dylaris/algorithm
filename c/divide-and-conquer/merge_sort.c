@@ -49,12 +49,12 @@ static void merge(int arr[], size_t left, size_t mid, size_t right)
 
 static void merge_sort(int arr[], size_t left, size_t right)
 {
-    if (left < right) {
-        size_t mid = (left + right) / 2;
-        merge_sort(arr, left, mid);
-        merge_sort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
+    if (left >= right) return;
+
+    size_t mid = (left + right) / 2;
+    merge_sort(arr, left, mid);
+    merge_sort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
 }
 
 static void print(int arr[], size_t size)
