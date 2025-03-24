@@ -1,14 +1,3 @@
-/*
-pseudo-code:
-
-    min_idx <- 0 
-    for i <- 0 to n - 2 do
-        for j <- i to n - 1 do
-            if array[min_idx] > array[j] then
-            min_idx <- j
-        swap(min_idx, i)
-*/
-
 #include <stdio.h>
 
 static void selection_sort(int arr[], size_t size)

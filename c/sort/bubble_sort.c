@@ -1,11 +1,3 @@
-/*
-pseudo-code:
-    for i <- n-1 downto 1 do
-        for j <- 0 to i-1 do
-            if arr[j] > arr[j+1] then
-                swap(j, j+1)
- */
-
 #include <stdio.h>
 
 static void bubble_sort(int arr[], size_t size)

@@ -1,27 +1,3 @@
-/*
-partition(arr)
-  // 默认用第一个元素作为pivot
-  pivot <- arr[0]
-  lp <- 0
-  rp <- n - 1
-  while lp < rp do
-    while lp < rp && arr[rp] >= pivot do
-      rp--
-    lp <- rp
-    while lp < rp && arr[lp] < pivot do
-      lp++
-    rp <- lp
-
-  pivot_idx <- lp
-  arr[pivot_idx] <- pivot
-  return pivot_idx // 这个就是分区界线
-
-quick_sort(arr):
-  limit <- partition(arr)
-  quick_sort(arr[:limit-1])
-  quick_sort(arr[limit+1:])
-*/
-
 #include <stdio.h>
 
 static size_t partition(int arr[], size_t left, size_t right)

@@ -1,27 +1,3 @@
---[[
-partition(arr)
-  // 默认用第一个元素作为pivot
-  pivot <- arr[0]
-  lp <- 0
-  rp <- n - 1
-  while lp < rp do
-    while lp < rp && arr[rp] >= pivot do
-      rp--
-    lp <- rp
-    while lp < rp && arr[lp] < pivot do
-      lp++
-    rp <- lp
-
-  pivot_idx <- lp
-  arr[pivot_idx] <- pivot
-  return pivot_idx // 这个就是分区界线
-
-quick_sort(arr):
-  limit <- partition(arr)
-  quick_sort(arr[:limit-1])
-  quick_sort(arr[limit+1:])
---]]
-
 local function partition(arr, left, right)
     local pivot = arr[left]
     while left < right do
@@ -47,7 +23,7 @@ local function quick_sort(arr, left, right)
     quick_sort(arr, mid + 1, right)
 end
 
-local function print(arr)
+local function print_tbl(arr)
     for _, v in ipairs(arr) do
         io.write(" " .. tostring(v))
     end
@@ -56,10 +32,10 @@ end
 
 local function run()
     local arr = {9, 4, 5, 7, -2, -1, 0}
-    print(arr)
+    print_tbl(arr)
 
     quick_sort(arr, 1, #arr)
-    print(arr)
+    print_tbl(arr)
 end
 
 run()

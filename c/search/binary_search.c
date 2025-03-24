@@ -1,18 +1,3 @@
-/*
-binary_search:
-  left <- 0
-  right <- n-1
-  while left <= right then
-    mid <- left+(right-left)//2
-    if arr[mid] < target then
-      left = mid + 1
-    else if arr[mid] > target then
-      right = mid - 1
-    else 
-      return mid
-  return -1
-*/
-
 #include <stdio.h>
 
 static int binary_search(int arr[], size_t n, int target)
