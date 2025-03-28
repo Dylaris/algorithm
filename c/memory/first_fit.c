@@ -105,6 +105,9 @@ static void merge(Node *prev, Node *cur, Node *next)
 static void ff_free(void *ptr)
 {
     Header *header = (Header *) ((char *) ptr - sizeof(Header));
+    if (header->magic != MAGIC)
+        ERR("Memory had been damaged!!!");
+
     Node *node = malloc(sizeof(Node));
     if (!node) ERR("new node in ff_free");
     node->size = header->size + sizeof(Header);
