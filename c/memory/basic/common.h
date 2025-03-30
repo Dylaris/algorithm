@@ -1,6 +1,5 @@
-/*
- * First Fit Allocation
- */
+#ifndef COMMON_H
+#define COMMON_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +11,14 @@
         fprintf(stderr, "%s\n", msg); \
         exit(1); \
     } while (0)
+#define PRINT_LIST(node) do { \
+        while (node) { \
+            printf("%ld (%zu) -> ", (char *) node->ptr - (char *) mem, node->size); \
+            node = node->next; \
+        } \
+        printf("NULL\n"); \
+    } while (0)
+#define free_func(name) void name##_free(void *ptr) { _free(ptr); }
 
 typedef struct Header {
     size_t size;    /* Size of allocated memory chunk (excluding the header) */
@@ -29,14 +36,14 @@ typedef struct FreeList {
     Node dummy_head;
 } FreeList;
 
-static char mem[MEM_SIZE];
-static FreeList free_list;
+extern char mem[MEM_SIZE];
+extern FreeList free_list;
 
-static void init(void)
+static inline void init(void)
 {
     memset(mem, 0, MEM_SIZE);
 
-    Node *node = malloc(sizeof(Node));
+    Node *node = (Node *) malloc(sizeof(Node));
     if (!node) ERR("new node in init");
     node->next = NULL;
     node->ptr = mem;
@@ -50,42 +57,7 @@ static void init(void)
     free_list.free_size = MEM_SIZE;
 }
 
-static void *ff_alloc(size_t size)
-{
-    Node *cur = free_list.dummy_head.next, 
-         *next = NULL, *prev = &free_list.dummy_head;
-    void *mem_ptr = NULL;
-
-    while (cur) {
-        next = cur->next;
-        if (cur->size >= size + sizeof(Header)) {
-            /* set the allocated memory chunk */
-            Header *header = (Header *) cur->ptr;
-            header->size = size;
-            header->magic = MAGIC;
-            mem_ptr = (char *) header + sizeof(Header);
-
-            /* update current node */
-            cur->size -= size + sizeof(Header);
-            cur->ptr = (char *) cur->ptr + size + sizeof(Header);
-
-            /* update free list */
-            free_list.free_size -= size + sizeof(Header);
-            if (cur->size == 0) {
-                prev->next = cur->next;
-                free(cur);
-            }
-
-            break;
-        }
-        prev = cur;
-        cur = next;
-    }
-
-    return mem_ptr;
-}
-
-static void merge(Node *prev, Node *cur, Node *next)
+static inline void merge(Node *prev, Node *cur, Node *next)
 {
     if ((char *) cur->ptr - (char *) prev->ptr == prev->size) {
         prev->size += cur->size;
@@ -102,7 +74,7 @@ static void merge(Node *prev, Node *cur, Node *next)
     }
 }
 
-static void ff_free(void *ptr)
+static inline void _free(void *ptr)
 {
     Header *header = (Header *) ((char *) ptr - sizeof(Header));
     if (header->magic != MAGIC)
@@ -136,41 +108,4 @@ static void ff_free(void *ptr)
     free_list.free_size += node->size;
 }
 
-int main(void)
-{
-    init();
-                                /* ptr: header+sizeof(header) */
-    void *ptr0 = ff_alloc(64);  /* ptr: 0+16   */
-    void *ptr1 = ff_alloc(64);  /* ptr: 80+16  */
-    void *ptr2 = ff_alloc(64);  /* ptr: 160+16 */
-    void *ptr3 = ff_alloc(64);  /* ptr: 240+16 */
-    void *ptr4 = ff_alloc(64);  /* ptr: 320+16 */
-    void *ptr5 = ff_alloc(64);  /* ptr: 400+16 */
-    void *ptr6 = ff_alloc(64);  /* ptr: 480+16 */
-    void *ptr7 = ff_alloc(64);  /* ptr: 560+16 */
-    void *ptr8 = ff_alloc(64);  /* ptr: 640+16 */
-    void *ptr9 = ff_alloc(64);  /* ptr: 720+16 */
-
-    ff_free(ptr1);
-    ff_free(ptr3);
-    ff_free(ptr4);
-    ff_free(ptr5);
-    ff_free(ptr7);
-
-    Node *cur = free_list.dummy_head.next;
-    while (cur) {
-        printf("%ld->", (char *) cur->ptr - (char *) mem);
-        cur = cur->next;
-    }
-    printf("NULL\n");
-
-    cur = free_list.dummy_head.next;
-    Node *next = NULL;
-    while (cur) {
-        next = cur->next;
-        free(cur);
-        cur = next;
-    }
-
-    return 0;
-}
+#endif /* COMMON_H */
