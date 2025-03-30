@@ -1,3 +1,7 @@
+/*
+ * Next Fit Allocation
+ */
+
 #include "common.h"
 
 char mem[MEM_SIZE];
@@ -12,7 +16,7 @@ static void *nf_alloc(size_t size)
 
     if (!cur) return NULL;
 
-    /* find the perv of start node */
+    /* find the prev of start node */
     while (cur != start) {
         prev = cur;
         cur = cur->next;

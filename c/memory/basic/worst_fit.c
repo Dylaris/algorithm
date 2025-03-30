@@ -1,3 +1,7 @@
+/*
+ * Worst Fit Allocation
+ */
+
 #include "common.h"
 
 char mem[MEM_SIZE];
