@@ -2,7 +2,7 @@
 
 /*
  * NAME
- ** binary_search
+ ** Binary Search
  *
  * PURPOSE
  ** Searches for a target value in a sorted array using the Binary Search 
