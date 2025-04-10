@@ -1,5 +1,26 @@
 #include <stdio.h>
 
+/*
+ * NAME
+ ** selection_sort
+ *
+ * PURPOSE
+ ** Sorts an array using the Selection Sort algorithm. Selection Sort is an 
+ ** in-place, comparison-based sorting algorithm. It works by repeatedly 
+ ** selecting the smallest (or largest) element from the unsorted part of the 
+ ** array and swapping it with the element at the current position.
+ *
+ * PSEUDO-CODE
+ ** FOR i from first element to last second element:
+ **     FOR j from element after i to last element:
+ **         IF arr[j] < arr[min_idx]: min_idx = j
+ **     SWAP arr[i] and arr[min_idx]
+ *
+ * COST
+ ** time:  O(n^2) for both best, average, and worst cases
+ ** space: O(1) for in-place sorting
+ */
+
 static void selection_sort(int arr[], size_t size)
 {
     int min_idx = 0;

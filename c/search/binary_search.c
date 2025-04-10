@@ -1,5 +1,36 @@
 #include <stdio.h>
 
+/*
+ * NAME
+ ** binary_search
+ *
+ * PURPOSE
+ ** Searches for a target value in a sorted array using the Binary Search 
+ ** algorithm. Binary Search is a divide-and-conquer algorithm that works by 
+ ** repeatedly dividing the search interval in half. It compares the target 
+ ** value to the middle element of the array. If the target value is smaller 
+ ** than the middle element, the search continues in the left half; if larger, 
+ ** it continues in the right half. The process repeats until the target is found 
+ ** or the search interval is empty.
+ *
+ * PSEUDO-CODE
+ ** left = 0
+ ** right = size - 1
+ ** WHILE left <= right:
+ **   mid = left + (right - left) / 2
+ **   IF arr[mid] < target:
+ **     left = mid + 1
+ **   ELSE IF arr[mid] > target:
+ **     right = mid - 1
+ **   ELSE:
+ **     RETURN mid
+ ** RETURN -1
+ *
+ * COST
+ ** time:  O(log n) for best, average, and worst cases
+ ** space: O(1) for in-place searching (constant space)
+ */
+
 static int binary_search(int arr[], size_t n, int target)
 {
     size_t left = 0, right = n - 1;

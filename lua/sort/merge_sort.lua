@@ -22,7 +22,7 @@ local function merge(arr, left, mid, right)
         q = q + 1
     end
 
-    for i = left, right, 1 do
+    for i = left, right do
         arr[i] = res[i - left + 1]
     end
 end
