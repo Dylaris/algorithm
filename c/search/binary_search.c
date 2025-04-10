@@ -14,8 +14,8 @@
  ** or the search interval is empty.
  *
  * PSEUDO-CODE
- ** left = 0
- ** right = size - 1
+ ** SET left to the first element
+ ** SET right to the last element
  ** WHILE left <= right:
  **   mid = left + (right - left) / 2
  **   IF arr[mid] < target:
