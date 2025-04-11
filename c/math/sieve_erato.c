@@ -11,10 +11,10 @@
  **  prime = array of size (n+1) with all true
  **  prime[0] = false
  **  prime[1] = false
- **    FOR i from 2 to sqrt(n):
- **      IF prime[i] == true:
- **        FOR j from i*i to n step i:
- **          prime[j] = false
+ **  FOR i from 2 to sqrt(n):
+ **    IF prime[i] == true:
+ **      FOR j from i*i to n step i:
+ **        prime[j] = false
  **  count = 0
  **  FOR i from 2 to n:
  **    IF prime[i] == true:
@@ -29,6 +29,8 @@
 #include <math.h>
 #include <stdio.h>
 
+#define macro
+
 static int sieve(int n)
 {
     int prime[n + 1];
@@ -37,7 +39,7 @@ static int sieve(int n)
     prime[0] = prime[1] = 0;
 
     for (int i = 2; i <= sqrt(n); i++)
-        for (int j = i * i; j < n; j += i)
+        for (int j = i * i; j <= n; j += i)
             prime[j] = 0;
 
     int count = 0;
@@ -50,6 +52,8 @@ static int sieve(int n)
 int main(void)
 {
     printf("prime (5): %d\n", sieve(5));
+    printf("prime (10): %d\n", sieve(10));
+    printf("prime (23): %d\n", sieve(23));
 
     return 0;
 }
