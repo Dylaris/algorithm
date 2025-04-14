@@ -26,6 +26,13 @@
 
 static void base_convert(char *buf, int n, int base)
 {
+    char characters[] = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+        'u', 'v', 'w', 'x', 'y', 'z'
+    };
+
     if (n == 0) {
         buf[0] = '0';
         buf[1] = '\0';
@@ -40,7 +47,7 @@ static void base_convert(char *buf, int n, int base)
 
     int pos = 0;
     while (n) {
-        buf[pos++] = n % base + '0';
+        buf[pos++] = characters[n % base];
         n /= base;
     }
 
