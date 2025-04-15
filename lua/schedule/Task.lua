@@ -4,7 +4,9 @@ local Task = {
     duration = 0,
     ticks = 0,
     priority = 0,
-    action = function () print("hello") end,
+    action = function (time, task)
+        print(string.format("TIME(%d):\tTask %s is running (left: %d)", time, task.name, task.ticks))
+    end,
     executor = nil
 }
 Task.__index = Task
@@ -20,13 +22,9 @@ function Task.new(name, arrival, duration, priority, action)
     object.priority = priority or object.priority
     object.action   = action or object.action
     object.executor = coroutine.create(function (time)
-        while time < object.arrival do
-            print(string.format("TIME(%d):\tnothing", time))
-            time = coroutine.yield(time + 1)
-        end
         while object.ticks > 0 do
             object.ticks = object.ticks - 1
-            object.action(time, object.ticks)
+            object.action(time, object)
             time = coroutine.yield(time + 1)
         end
     end)
@@ -34,9 +32,15 @@ function Task.new(name, arrival, duration, priority, action)
     return object
 end
 
-function Task:registry(queue, add)
+function Task:registry(queue)
     if type(queue) == "table" then
-        table.insert(queue, add(self, queue), self)
+        for idx, item in ipairs(queue) do
+            if self.arrival < item.arrival then
+                table.insert(queue, idx, self)
+                return
+            end
+        end
+        table.insert(queue, self)
     end
 end
 
